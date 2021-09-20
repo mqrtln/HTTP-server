@@ -6,12 +6,13 @@ HTTP request ser ut
 * [ x ] Maven
 * [ x ] Gtihub Actions
 * [ x ] Working branch
-* [ x ] Pull request
+* [  ] Pull request
+* [  ] Test report
 
 ## Repeat av lecture 3
 * [ x ] Socket connects server
-* [ ] Status code
-* [ ] Header fields
+* [ x ] Status code
+* [ x ] Header fields
 * [ ] Content-length
 * [ ] Message body
 
