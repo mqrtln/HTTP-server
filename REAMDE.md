@@ -3,8 +3,8 @@
 HTTP request ser ut
 
 ## Repeat av lecture 2
-* [ X ] Maven
-* [ ] Gtihub Actions
+* [ x ] Maven
+* [ x ] Gtihub Actions
 * [ ] Working branch
 * [ ] Pull request
 
