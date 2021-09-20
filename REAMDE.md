@@ -5,15 +5,16 @@ HTTP request ser ut
 ## Repeat av lecture 2
 * [ x ] Maven
 * [ x ] Gtihub Actions
-* [ ] Working branch
-* [ ] Pull request
+* [ x ] Working branch
+* [  ] Pull request
+* [  ] Test report
 
 ## Repeat av lecture 3
-* [ ] Socket connects server
-* [ ] Status code
-* [ ] Header fields
-* [ ] Content-length
-* [ ] Message body
+* [ x ] Socket connects server
+* [ x ] Status code
+* [ x ] Header fields
+* [ x ] Content-length
+* [ x ] Message body
 
 ## Today: HttpServer
 
