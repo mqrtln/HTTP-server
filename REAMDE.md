@@ -13,8 +13,8 @@ HTTP request ser ut
 * [ x ] Socket connects server
 * [ x ] Status code
 * [ x ] Header fields
-* [ ] Content-length
-* [ ] Message body
+* [ x ] Content-length
+* [ x ] Message body
 
 ## Today: HttpServer
 
