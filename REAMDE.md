@@ -6,8 +6,8 @@ HTTP request ser ut
 * [ x ] Maven
 * [ x ] Gtihub Actions
 * [ x ] Working branch
-* [  ] Pull request
-* [  ] Test report
+* [ x ] Pull request
+* [ x ] Test report
 
 ## Repeat av lecture 3
 * [ x ] Socket connects server
