@@ -5,11 +5,11 @@ HTTP request ser ut
 ## Repeat av lecture 2
 * [ x ] Maven
 * [ x ] Gtihub Actions
-* [ ] Working branch
-* [ ] Pull request
+* [ x ] Working branch
+* [ x ] Pull request
 
 ## Repeat av lecture 3
-* [ ] Socket connects server
+* [ x ] Socket connects server
 * [ ] Status code
 * [ ] Header fields
 * [ ] Content-length
