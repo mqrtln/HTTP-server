@@ -8,7 +8,7 @@ import java.util.Map;
 public class HttpClient {
     private final int statusCode;
     private final Map<String, String> headerFields = new HashMap<>();
-    private String messageBody;
+    private final String messageBody;
 
     public HttpClient(String host, int port, String requestTarget) throws IOException {
         Socket socket  = new Socket(host, port);
@@ -41,7 +41,7 @@ public class HttpClient {
         return buffer.toString();
     }
 
-    private String readLine(Socket socket) throws IOException {
+    static String readLine(Socket socket) throws IOException {
         StringBuilder buffer = new StringBuilder();
         int c;
         while ((c = socket.getInputStream().read()) != '\r'){
