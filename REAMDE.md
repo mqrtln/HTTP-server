@@ -2,24 +2,35 @@
 
 HTTP request ser ut
 
-## Repeat av lecture 2
-* [ x ] Maven
-* [ x ] Gtihub Actions
-* [ x ] Working branch
-* [ x ] Pull request
-* [ x ] Test report
+## Lecture 2
+* [x] Maven
+* [x] Gtihub Actions
+* [x] Working branch
+* [x] Pull request
+* [x] Test report
 
-## Repeat av lecture 3
-* [ x ] Socket connects server
-* [ x ] Status code
-* [ x ] Header fields
-* [ x ] Content-length
-* [ x ] Message body
+## Lecture 3
+* [x] Socket connects server
+* [x] Status code
+* [x] Header fields
+* [x] Content-length
+* [x] Message body
 
-## Today: HttpServer
+## Lecture 4
 
-* [ ] HttpServer should respond with 404
-* [ ] HttpServer should include request target in 404
-* [ ] Return a status content for /hello
-* [ ] Return /html file from disk
-* [ ] Content-type
+* [x] HttpServer should respond with 404
+* [x] HttpServer should include request target in 404
+* [x] Return a status content for /hello
+* [x] Return /html file from disk
+* [x] Content-type
+* [x] Return <form>
+* [x] Process GET request for form
+
+## Lecture 5
+* [ ] Styling
+* [ ] Process POST request from form
+* [ ] Handle more than one request
+* [ ] Refactoring -> HttpMessage class
+* [ ] Make executable JAR
+* [ ] URL encoding -- kommer på eksamen, ikke løst i klassen
+* [ ] Feilhåndtering -- kommer på eksamen, ikke løst i klassen

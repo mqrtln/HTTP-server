@@ -37,6 +37,14 @@ class HttpServerTest {
                 () -> assertEquals("<p>Hello world</p>", client.getMessageBody())
         );
     }
+
+    @Test
+    void shouldEchoQueryParameter() throws IOException {
+        HttpServer server = new HttpServer(0);
+        HttpClient client = new HttpClient("localhost", server.getPort(), "/hello?yourName=martin");
+        assertEquals("<p>Hello martin</p>", client.getMessageBody());
+    }
+
     @Test
     void shouldServeFiles() throws IOException {
         HttpServer server = new HttpServer(0);
