@@ -6,11 +6,14 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HttpServer {
 
     private final ServerSocket serverSocket;
     private Path rootDirectory;
+    private List<String> roles = new ArrayList<>();
 
     public HttpServer(int serverPort) throws IOException {
         serverSocket = new ServerSocket((serverPort));
@@ -52,14 +55,20 @@ public class HttpServer {
                 yourName = query.split("=")[1];
             }
             String responseText = "<p>Hello " + yourName + "</p>";
-            String response = "HTTP/1.1 200 OK\r\n"+
-                    "Content-Length: " + responseText.getBytes().length + "\r\n" +
-                    "Content-Type: text/html" + "\r\n" +
-                    "\r\n" +
-                    responseText;
-            clientSocket.getOutputStream().write(response.getBytes());
+            writeOkResponse(clientSocket, responseText, "text/html");
 
-        }else {
+        }else if(fileTarget.equals("/api/roleOptions")){
+            String responseText = "";
+
+            int value = 1;
+            for (String role : roles) {
+                responseText += "<option value=" + (value++) + ">"  + role + "</option>";
+            }
+
+
+            writeOkResponse(clientSocket, responseText, "text/html");
+        }
+        else {
            if(rootDirectory != null && Files.exists(rootDirectory.resolve(fileTarget.substring(1)))){
 
                String responseText =  Files.readString(rootDirectory.resolve(fileTarget.substring(1)));
@@ -69,23 +78,29 @@ public class HttpServer {
                if(requestTarget.endsWith(".html")){
                    contentType = "text/html";
                }
-               String response = "HTTP/1.1 200 OK\r\n"+
-                       "Content-Length: " + responseText.getBytes().length + "\r\n" +
-                       "Content-Type: " + contentType + "\r\n" +
-                       "\r\n" +
-                       responseText;
-               clientSocket.getOutputStream().write(response.getBytes());
+               writeOkResponse(clientSocket, responseText, contentType);
            }
 
             String responseText = "File not found: " + requestTarget;
 
             String response = "HTTP/1.1 404 Not found\r\n"+
                     "Content-Length: " + responseText.getBytes().length + "\r\n" +
+                    "Connection: close\r\n" +
                     "\r\n" +
                     responseText;
 
             clientSocket.getOutputStream().write(response.getBytes());
         }
+    }
+
+    private void writeOkResponse(Socket clientSocket, String responseText, String contentType) throws IOException {
+        String response = "HTTP/1.1 200 OK\r\n" +
+                "Content-Length: " + responseText.getBytes().length + "\r\n" +
+                "Content-Type: " + contentType + "\r\n" +
+                "Connection: close\r\n" +
+                "\r\n" +
+                responseText;
+        clientSocket.getOutputStream().write(response.getBytes());
     }
 
     public static void main(String[] args) throws IOException {
@@ -101,5 +116,10 @@ public class HttpServer {
 
     public void setRoot(Path rootDirectory) {
         this.rootDirectory = rootDirectory;
+    }
+
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }

@@ -27,9 +27,10 @@ HTTP request ser ut
 * [x] Process GET request for form
 
 ## Lecture 5
-* [ ] Styling
+* [x] Styling
 * [ ] Process POST request from form
-* [ ] Handle more than one request
+* [x] Handle more than one request
+* [ ] GET requests with more than one field
 * [ ] Refactoring -> HttpMessage class
 * [ ] Make executable JAR
 * [ ] URL encoding -- kommer på eksamen, ikke løst i klassen
