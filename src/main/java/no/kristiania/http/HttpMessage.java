@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HttpMessage {
-    public String startLine;
+    public static String startLine;
 
     public final Map<String, String> headerFields = new HashMap<>();
     public String messageBody;
@@ -15,8 +15,9 @@ public class HttpMessage {
     public HttpMessage(Socket socket) throws IOException {
         startLine = HttpMessage.readLine(socket);
         readHeaders(socket);
-        messageBody = HttpMessage.readBytes(socket, getContentLength());
-
+        if (headerFields.containsKey("Content-Length")) {
+            messageBody = HttpMessage.readBytes(socket, getContentLength());
+        }
     }
 
     public int getContentLength() {
