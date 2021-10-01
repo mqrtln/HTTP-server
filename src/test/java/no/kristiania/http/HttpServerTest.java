@@ -43,8 +43,8 @@ class HttpServerTest {
 
     @Test
     void shouldEchoQueryParameter() throws IOException {
-        HttpClient client = new HttpClient("localhost", server.getPort(), "/hello?yourName=martin");
-        assertEquals("<p>Hello martin</p>", client.getMessageBody());
+        HttpClient client = new HttpClient("localhost", server.getPort(), "/hello?firstName=martin&lastName=olaussen");
+        assertEquals("<p>Hello Olaussen, Martin</p>", client.getMessageBody());
     }
 
     @Test

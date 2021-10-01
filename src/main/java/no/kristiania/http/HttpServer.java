@@ -58,15 +58,15 @@ public class HttpServer {
             writeOkResponse(clientSocket, responseText, "text/html");
 
         }else if(fileTarget.equals("/api/roleOptions")){
-            String responseText = "";
+            StringBuilder responseText = new StringBuilder();
 
             int value = 1;
             for (String role : roles) {
-                responseText += "<option value=" + (value++) + ">"  + role + "</option>";
+                responseText.append("<option value=").append(value++).append(">").append(role).append("</option>");
             }
 
 
-            writeOkResponse(clientSocket, responseText, "text/html");
+            writeOkResponse(clientSocket, responseText.toString(), "text/html");
         }
         else {
            if(rootDirectory != null && Files.exists(rootDirectory.resolve(fileTarget.substring(1)))){
@@ -105,6 +105,7 @@ public class HttpServer {
 
     public static void main(String[] args) throws IOException {
         HttpServer httpServer = new HttpServer(1962);
+        httpServer.setRoles(List.of("Student", "Teaching assistant", "Teacher"));
         httpServer.setRoot(Paths.get("."));
 
     }
