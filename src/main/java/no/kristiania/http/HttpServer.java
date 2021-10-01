@@ -16,6 +16,7 @@ public class HttpServer {
     private final ServerSocket serverSocket;
     private Path rootDirectory;
     private List<String> roles = new ArrayList<>();
+    private List<Person> people = new ArrayList<>();
 
     public HttpServer(int serverPort) throws IOException {
         serverSocket = new ServerSocket((serverPort));
@@ -37,7 +38,8 @@ public class HttpServer {
     private void handleClient() throws IOException {
         Socket clientSocket = serverSocket.accept();
 
-        String[] requestLine = HttpMessage.readLine(clientSocket).split(" ");
+        HttpMessage httpMessage = new HttpMessage(clientSocket);
+        String[] requestLine = HttpMessage.startLine.split(" ");
         String requestTarget = requestLine[1];
 
         int questionPos = requestTarget.indexOf('?');
@@ -51,49 +53,61 @@ public class HttpServer {
             fileTarget = requestTarget;
         }
 
-        if(fileTarget.equals("/hello")){
-            String yourName = "world";
-            if(query != null){
-                Map<String, String> queryMap = parseRequestParameters(query);
-                yourName = queryMap.get("lastName") + ", " + queryMap.get("firstName");
+        switch (fileTarget) {
+            case "/hello": {
+                String yourName = "world";
+                if (query != null) {
+                    Map<String, String> queryMap = parseRequestParameters(query);
+                    yourName = queryMap.get("lastName") + ", " + queryMap.get("firstName");
+                }
+                String responseText = "<p>Hello " + yourName + "</p>";
+
+                writeOkResponse(clientSocket, responseText, "text/html");
+                break;
             }
-            String responseText = "<p>Hello " + yourName + "</p>";
+            case "/api/newPerson":
+                Map<String, String> queryMap = parseRequestParameters(httpMessage.messageBody);
+                Person person = new Person();
+                person.setLastName(queryMap.get("lastName"));
+                people.add(person);
+                writeOkResponse(clientSocket, "it is done", "text/html");
+                break;
+            case "/api/roleOptions": {
+                StringBuilder responseText = new StringBuilder();
 
-            writeOkResponse(clientSocket, responseText, "text/html");
+                int value = 1;
+                for (String role : roles) {
+                    responseText.append("<option value=").append(value++).append(">").append(role).append("</option>");
+                }
 
-        }else if(fileTarget.equals("/api/roleOptions")){
-            StringBuilder responseText = new StringBuilder();
 
-            int value = 1;
-            for (String role : roles) {
-                responseText.append("<option value=").append(value++).append(">").append(role).append("</option>");
+                writeOkResponse(clientSocket, responseText.toString(), "text/html");
+                break;
             }
+            default: {
+                if (rootDirectory != null && Files.exists(rootDirectory.resolve(fileTarget.substring(1)))) {
 
+                    String responseText = Files.readString(rootDirectory.resolve(fileTarget.substring(1)));
 
-            writeOkResponse(clientSocket, responseText.toString(), "text/html");
-        }
-        else {
-           if(rootDirectory != null && Files.exists(rootDirectory.resolve(fileTarget.substring(1)))){
+                    String contentType = "text/plain";
 
-               String responseText =  Files.readString(rootDirectory.resolve(fileTarget.substring(1)));
+                    if (requestTarget.endsWith(".html")) {
+                        contentType = "text/html";
+                    }
+                    writeOkResponse(clientSocket, responseText, contentType);
+                }
 
-               String contentType = "text/plain";
+                String responseText = "File not found: " + requestTarget;
 
-               if(requestTarget.endsWith(".html")){
-                   contentType = "text/html";
-               }
-               writeOkResponse(clientSocket, responseText, contentType);
-           }
+                String response = "HTTP/1.1 404 Not found\r\n" +
+                        "Content-Length: " + responseText.getBytes().length + "\r\n" +
+                        "Connection: close\r\n" +
+                        "\r\n" +
+                        responseText;
 
-            String responseText = "File not found: " + requestTarget;
-
-            String response = "HTTP/1.1 404 Not found\r\n"+
-                    "Content-Length: " + responseText.getBytes().length + "\r\n" +
-                    "Connection: close\r\n" +
-                    "\r\n" +
-                    responseText;
-
-            clientSocket.getOutputStream().write(response.getBytes());
+                clientSocket.getOutputStream().write(response.getBytes());
+                break;
+            }
         }
     }
 
@@ -137,5 +151,9 @@ public class HttpServer {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public List<Person> getPeople() {
+        return people;
     }
 }
