@@ -69,4 +69,11 @@ class HttpServerTest {
         HttpClient client = new HttpClient("localhost", server.getPort(), "/example-file.html");
         assertEquals("text/html", client.getHeader("Content-Type"));
     }
+
+    @Test
+    void shouldHandleMoreThanOneRequest() throws IOException {
+        HttpServer server = new HttpServer(0);
+        assertEquals(200, new HttpClient("localhost", server.getPort(), "/hello").getStatusCode());
+        assertEquals(200, new HttpClient("localhost", server.getPort(), "/hello").getStatusCode());
+    }
 }
